@@ -1,5 +1,6 @@
-package com.kromanenko.appservice.exception;
+package com.kromanenko.appservice.exception.handler;
 
+import com.kromanenko.appservice.exception.GameAlreadyExistsException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -24,5 +25,10 @@ public class GlobalExceptionHandler {
     });
 
     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(GameAlreadyExistsException.class)
+  public ResponseEntity<String> handleGameAlreadyExistsException(GameAlreadyExistsException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
   }
 }

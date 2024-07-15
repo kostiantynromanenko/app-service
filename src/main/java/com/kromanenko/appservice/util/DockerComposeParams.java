@@ -1,8 +1,8 @@
 package com.kromanenko.appservice.util;
 
-public final class DockerComposeAttributes {
+public final class DockerComposeParams {
 
-  private DockerComposeAttributes() {
+  private DockerComposeParams() {
   }
 
   public static final String PORT = "port";

@@ -1,6 +1,6 @@
 package com.kromanenko.appservice.controller;
 
-import com.kromanenko.appservice.dto.CreateDockerComposeRequest;
+import com.kromanenko.appservice.dto.dockercompose.CreateDockerComposeRequest;
 import com.kromanenko.appservice.service.impl.DockerComposeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

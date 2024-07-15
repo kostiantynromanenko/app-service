@@ -1,4 +1,4 @@
-package com.kromanenko.appservice.dto;
+package com.kromanenko.appservice.dto.dockercompose;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

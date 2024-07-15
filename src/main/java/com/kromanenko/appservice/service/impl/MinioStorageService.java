@@ -5,8 +5,9 @@ import com.kromanenko.appservice.service.StorageService;
 import io.minio.DownloadObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
-import io.minio.UploadObjectArgs;
+import java.io.InputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MinioStorageService implements StorageService {
 
+  private static final long UPLOAD_STREAM_PART_SIZE = -1;
+
   private final MinioClient minioClient;
 
   @Override
   public void createBucket(String bucketName) {
-    var args = MakeBucketArgs.builder().bucket(bucketName).build();
+    var args = MakeBucketArgs.builder()
+        .bucket(bucketName)
+        .build();
 
     try {
       minioClient.makeBucket(args);
@@ -28,15 +33,18 @@ public class MinioStorageService implements StorageService {
   }
 
   @Override
-  public void uploadFile(String bucketName, String objectName, String fileName) {
+  public void uploadFile(String bucketName, String objectName, InputStream inputStream,
+      String contentType) {
     try {
-      var args = UploadObjectArgs.builder()
+      var args = PutObjectArgs.builder()
           .bucket(bucketName)
           .object(objectName)
-          .filename(fileName)
+          .stream(inputStream, inputStream.available(),
+              UPLOAD_STREAM_PART_SIZE)
+          .contentType(contentType)
           .build();
 
-      minioClient.uploadObject(args);
+      minioClient.putObject(args);
     } catch (Exception e) {
       throw new StorageServiceException("Failed to upload file", e);
     }

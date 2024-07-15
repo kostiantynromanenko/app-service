@@ -1,4 +1,4 @@
-package com.kromanenko.appservice.dto;
+package com.kromanenko.appservice.dto.dockercompose;
 
 import com.kromanenko.appservice.util.ValidationPatterns;
 import jakarta.validation.constraints.Max;
@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class DockerComposeConfigDto {
+
   @Min(value = 1024, message = "Port number must be greater than or equal to 1024")
   @Max(value = 65535, message = "Port number must be less than or equal to 65535")
   private int port;

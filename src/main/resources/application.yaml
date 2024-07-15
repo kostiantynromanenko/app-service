@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: app-service
+  data:
+    mongodb:
+      host: ${MONGODB_HOST:localhost}
+      port: ${MONGODB_PORT:27017}
+      database: ${MONGODB_DATABASE:games}
+      username: ${MONGODB_USERNAME:mongo}
+      password: ${MONGODB_PASSWORD:mongo123}
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:70BSjeR0zqY9IqDBxfZV}
+  secret-key: ${MINIO_SECRET_KEY:YyaYRpJQi7tJYslBwOTy6dQ7czBux2WU4sVyf1aS}
