@@ -19,7 +19,7 @@ public class GameFacade {
   private final StorageService storageService;
 
   public GameResponse createGame(CreateGameRequest request) {
-    if (gameService.isGameExists(request.getName())) {
+    if (gameService.gameExistsByName(request.getName())) {
       throw new GameAlreadyExistsException(
           "Game with name %s already exists".formatted(request.getName()));
     }

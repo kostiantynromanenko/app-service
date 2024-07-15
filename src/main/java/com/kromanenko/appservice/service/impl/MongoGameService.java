@@ -1,7 +1,5 @@
 package com.kromanenko.appservice.service.impl;
 
-import com.kromanenko.appservice.exception.GameAlreadyExistsException;
-import com.kromanenko.appservice.exception.GameServiceException;
 import com.kromanenko.appservice.model.Game;
 import com.kromanenko.appservice.repository.GameRepository;
 import com.kromanenko.appservice.service.GameService;
@@ -22,23 +20,12 @@ public class MongoGameService implements GameService {
     return gameRepository.save(game);
   }
 
-  public boolean isGameExists(String gameName) {
+  public boolean gameExistsByName(String gameName) {
     return gameRepository.findByName(gameName).isPresent();
   }
 
-  @Override
-  public Game findGameById(String id) {
-    return gameRepository.findById(id).orElse(null);
-  }
-
-  @Override
-  public Game findGameByName(String name) {
-    return gameRepository.findByName(name).orElse(null);
-  }
-
-  @Override
-  public void deleteGame(String id) {
-    gameRepository.deleteById(id);
+  public boolean gameExistsById(String gameId) {
+    return gameRepository.findById(gameId).isPresent();
   }
 
   @Override

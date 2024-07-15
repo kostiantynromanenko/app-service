@@ -7,13 +7,9 @@ public interface GameService {
 
   Game createGame(String gameName);
 
-  boolean isGameExists(String gameName);
+  boolean gameExistsByName(String gameName);
 
-  Game findGameById(String id);
-
-  Game findGameByName(String name);
-
-  void deleteGame(String id);
+  boolean gameExistsById(String gameId);
 
   List<Game> findAllGames();
 }

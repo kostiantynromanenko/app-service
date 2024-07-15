@@ -3,10 +3,13 @@ package com.kromanenko.appservice.service.impl;
 import com.kromanenko.appservice.exception.StorageServiceException;
 import com.kromanenko.appservice.service.StorageService;
 import io.minio.DownloadObjectArgs;
+import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
+import io.minio.StatObjectArgs;
+import io.minio.errors.ErrorResponseException;
 import java.io.InputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class MinioStorageService implements StorageService {
 
   private static final long UPLOAD_STREAM_PART_SIZE = -1;
+  private static final String NO_SUCH_KEY = "NoSuchKey";
 
   private final MinioClient minioClient;
 
@@ -47,6 +51,40 @@ public class MinioStorageService implements StorageService {
       minioClient.putObject(args);
     } catch (Exception e) {
       throw new StorageServiceException("Failed to upload file", e);
+    }
+  }
+
+  @Override
+  public boolean fileExists(String bucketName, String objectName) {
+    var args = StatObjectArgs.builder()
+        .bucket(bucketName)
+        .object(objectName)
+        .build();
+    try {
+      minioClient.statObject(args);
+      return true;
+    } catch (ErrorResponseException e) {
+      if (e.errorResponse().code().equals(NO_SUCH_KEY)) {
+        return false;
+      } else {
+        throw new StorageServiceException("Error checking if object exists", e);
+      }
+    } catch (Exception e) {
+      throw new StorageServiceException("Error checking if object exists", e);
+    }
+  }
+
+  @Override
+  public InputStream getFileInputStream(String bucketName, String objectName) {
+    var args = GetObjectArgs.builder()
+        .bucket(bucketName)
+        .object(objectName)
+        .build();
+
+    try {
+      return minioClient.getObject(args);
+    } catch (Exception e) {
+      throw new StorageServiceException("Failed to get file", e);
     }
   }
 

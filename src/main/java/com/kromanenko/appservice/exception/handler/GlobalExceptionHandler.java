@@ -1,6 +1,8 @@
 package com.kromanenko.appservice.exception.handler;
 
+import com.kromanenko.appservice.exception.DockerComposeFileNotFound;
 import com.kromanenko.appservice.exception.GameAlreadyExistsException;
+import com.kromanenko.appservice.exception.GameNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -30,5 +32,15 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(GameAlreadyExistsException.class)
   public ResponseEntity<String> handleGameAlreadyExistsException(GameAlreadyExistsException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+  }
+
+  @ExceptionHandler(DockerComposeFileNotFound.class)
+  public ResponseEntity<String> handleDockerComposeFileNotFound(DockerComposeFileNotFound ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(GameNotFoundException.class)
+  public ResponseEntity<String> handleGameNotFoundException(GameNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }
