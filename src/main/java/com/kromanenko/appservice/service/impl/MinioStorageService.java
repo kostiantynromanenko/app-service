@@ -2,6 +2,7 @@ package com.kromanenko.appservice.service.impl;
 
 import com.kromanenko.appservice.exception.StorageServiceException;
 import com.kromanenko.appservice.service.StorageService;
+import io.minio.BucketExistsArgs;
 import io.minio.DownloadObjectArgs;
 import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
@@ -75,6 +76,18 @@ public class MinioStorageService implements StorageService {
   }
 
   @Override
+  public boolean bucketExists(String bucketName) {
+    var args = BucketExistsArgs.builder()
+        .bucket(bucketName)
+        .build();
+    try {
+      return minioClient.bucketExists(args);
+    } catch (Exception e) {
+      throw new StorageServiceException("Error checking if bucket exists", e);
+    }
+  }
+
+  @Override
   public InputStream getFileInputStream(String bucketName, String objectName) {
     var args = GetObjectArgs.builder()
         .bucket(bucketName)
@@ -85,21 +98,6 @@ public class MinioStorageService implements StorageService {
       return minioClient.getObject(args);
     } catch (Exception e) {
       throw new StorageServiceException("Failed to get file", e);
-    }
-  }
-
-  @Override
-  public void downloadFile(String bucketName, String objectName, String fileName) {
-    var args = DownloadObjectArgs.builder()
-        .bucket(bucketName)
-        .object(objectName)
-        .filename(fileName)
-        .build();
-
-    try {
-      minioClient.downloadObject(args);
-    } catch (Exception e) {
-      throw new StorageServiceException("Failed to download file", e);
     }
   }
 

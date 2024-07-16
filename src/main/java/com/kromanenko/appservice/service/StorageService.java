@@ -11,9 +11,9 @@ public interface StorageService {
 
   boolean fileExists(String bucketName, String objectName);
 
-  InputStream getFileInputStream(String bucketName, String objectName);
+  boolean bucketExists(String bucketName);
 
-  void downloadFile(String bucketName, String objectName, String fileName);
+  InputStream getFileInputStream(String bucketName, String objectName);
 
   void deleteFile(String bucketName, String objectName);
 }

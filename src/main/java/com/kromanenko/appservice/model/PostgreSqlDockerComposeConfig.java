@@ -5,10 +5,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class DockerComposeConfig {
+public class PostgreSqlDockerComposeConfig {
 
-  private int port;
   private String username;
   private String password;
+  private String database;
   private String volume;
+  private String port;
 }
