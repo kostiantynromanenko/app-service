@@ -4,8 +4,9 @@ import static java.util.stream.Collectors.toList;
 
 import com.kromanenko.appservice.dto.game.CreateGameRequest;
 import com.kromanenko.appservice.dto.game.GameResponse;
-import com.kromanenko.appservice.exception.BucketAlreadyExistsException;
+import com.kromanenko.appservice.exception.DuplicateGameNameException;
 import com.kromanenko.appservice.exception.GameAlreadyExistsException;
+import com.kromanenko.appservice.exception.GameServiceException;
 import com.kromanenko.appservice.service.GameService;
 import com.kromanenko.appservice.service.StorageService;
 import java.util.List;
@@ -20,19 +21,16 @@ public class GameFacade {
   private final StorageService storageService;
 
   public GameResponse createGame(CreateGameRequest request) {
-    if (gameService.gameExistsByName(request.getName())) {
+    try {
+      var game = gameService.createGame(request.getName());
+      storageService.createBucket(game.getId());
+      return new GameResponse(game.getId(), game.getName());
+    } catch (DuplicateGameNameException e) {
       throw new GameAlreadyExistsException(
           "Game with name %s already exists".formatted(request.getName()));
+    } catch (Exception e) {
+      throw new GameServiceException("Failed to create game", e);
     }
-
-    if (storageService.bucketExists(request.getName())) {
-      throw new BucketAlreadyExistsException(
-          "Bucket with name %s already exists".formatted(request.getName()));
-    }
-
-    var game = gameService.createGame(request.getName());
-    storageService.createBucket(game.getId());
-    return new GameResponse(game.getId(), game.getName());
   }
 
   public List<GameResponse> getAllGames() {

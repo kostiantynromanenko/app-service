@@ -15,7 +15,7 @@ import java.io.InputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("minio")
+@Service
 @RequiredArgsConstructor
 public class MinioStorageService implements StorageService {
 

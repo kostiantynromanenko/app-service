@@ -1,6 +1,7 @@
 package com.kromanenko.appservice.exception.handler;
 
 import com.kromanenko.appservice.dto.ErrorResponse;
+import com.kromanenko.appservice.dto.ValidationErrorResponse;
 import com.kromanenko.appservice.exception.BucketAlreadyExistsException;
 import com.kromanenko.appservice.exception.DockerComposeFileNotFound;
 import com.kromanenko.appservice.exception.GameAlreadyExistsException;
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<Map<String, String>> handleValidationExceptions(
+  public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(
       MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();
 
@@ -38,7 +39,10 @@ public class GlobalExceptionHandler {
       errors.put(fieldName, errorMessage);
     });
 
-    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    var errorResponse = new ValidationErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed",
+        System.currentTimeMillis(), errors);
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(GameAlreadyExistsException.class)

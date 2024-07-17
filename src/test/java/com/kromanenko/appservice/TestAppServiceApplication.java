@@ -7,7 +7,7 @@ public class TestAppServiceApplication
 
   public static void main(String[] args)
   {
-    SpringApplication.from(AppServiceApplication::main).with(TestcontainersConfiguration.class).run(args);
+    SpringApplication.from(AppServiceApplication::main).run(args);
   }
 
 }
