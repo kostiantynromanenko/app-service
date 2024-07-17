@@ -32,6 +32,6 @@ public class PostgreSqlDockerComposeRequest {
   private String volume;
 
   @NotBlank(message = "Port mapping is required")
-  @Pattern(regexp = ValidationPatterns.PORT_PATTERN, message = "Port mapping must be in the format host:container")
+  @Pattern(regexp = ValidationPatterns.PORT_PATTERN, message = "Port mapping must be in the format host:container. Port numbers must be between 1025 and 65535")
   private String port;
 }
