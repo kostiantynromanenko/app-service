@@ -19,7 +19,6 @@ import com.kromanenko.appservice.service.GameService;
 import com.kromanenko.appservice.service.impl.DockerComposeService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import java.io.ByteArrayInputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
