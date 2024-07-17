@@ -1,8 +1,6 @@
 package com.kromanenko.appservice.service.integration;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import com.kromanenko.appservice.exception.StorageServiceException;
 import com.kromanenko.appservice.service.impl.MinioStorageService;

@@ -1,10 +1,7 @@
 package com.kromanenko.appservice.service;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,6 +15,7 @@ import com.kromanenko.appservice.service.impl.MongoGameService;
 import com.mongodb.DuplicateKeyException;
 import com.mongodb.MongoException;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,7 +44,7 @@ public class MongoGameServiceTest {
 
     // then
     verify(gameRepository, times(1)).save(any(Game.class));
-    assertEquals("Test Game", createdGame.getName());
+    Assertions.assertEquals("Test Game", createdGame.getName());
   }
 
   @Test
@@ -66,24 +64,24 @@ public class MongoGameServiceTest {
   @Test
   void shouldReturnsTrueWhenGameExistsByName() {
     when(gameRepository.findByName("Existing Game")).thenReturn(Optional.of(new Game()));
-    assertTrue(mongoGameService.gameExistsByName("Existing Game"));
+    Assertions.assertTrue(mongoGameService.gameExistsByName("Existing Game"));
   }
 
   @Test
   void shouldReturnFalseWhenGameDoesNotExistByName() {
     when(gameRepository.findByName("Nonexistent Game")).thenReturn(Optional.empty());
-    assertFalse(mongoGameService.gameExistsByName("Nonexistent Game"));
+    Assertions.assertFalse(mongoGameService.gameExistsByName("Nonexistent Game"));
   }
 
   @Test
   void shouldReturnTrueWhenGameExistsById() {
     when(gameRepository.findById("existingId")).thenReturn(Optional.of(new Game()));
-    assertTrue(mongoGameService.gameExistsById("existingId"));
+    Assertions.assertTrue(mongoGameService.gameExistsById("existingId"));
   }
 
   @Test
   void shouldReturnFalseWhenGameNotExistsById() {
     when(gameRepository.findById("nonexistentId")).thenReturn(Optional.empty());
-    assertFalse(mongoGameService.gameExistsById("nonexistentId"));
+    Assertions.assertFalse(mongoGameService.gameExistsById("nonexistentId"));
   }
 }

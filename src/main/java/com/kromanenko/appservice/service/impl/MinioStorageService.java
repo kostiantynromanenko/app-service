@@ -3,7 +3,6 @@ package com.kromanenko.appservice.service.impl;
 import com.kromanenko.appservice.exception.StorageServiceException;
 import com.kromanenko.appservice.service.StorageService;
 import io.minio.BucketExistsArgs;
-import io.minio.DownloadObjectArgs;
 import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
